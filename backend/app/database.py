@@ -1,3 +1,7 @@
+"""
+Database configuration module for Finora accounting application.
+Provides SQLAlchemy engine creation, session factory, and DB dependency.
+"""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -15,6 +19,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def get_db():
+    """
+    FastAPI dependency function that provides a database session instance per request.
+    Ensures proper cleanup and closing of the session after the request finishes.
+    """
     db = SessionLocal()
     try:
         yield db

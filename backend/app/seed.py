@@ -1,8 +1,18 @@
+"""
+Database seeding script for Finora accounting application.
+Populates default Chart of Accounts, standard Tax Rates, and initial demo data.
+"""
 from sqlalchemy.orm import Session
 from app.database import SessionLocal, engine, Base
 from app.models import Account, TaxRate, Customer, Supplier, Item
 
 def seed_data(db: Session = None):
+    """
+    Populates database tables with default accounting system configuration.
+    
+    Args:
+        db (Session, optional): SQLAlchemy database session. If None, creates a new session.
+    """
     close_db = False
     if db is None:
         db = SessionLocal()

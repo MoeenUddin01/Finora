@@ -1,9 +1,16 @@
+"""
+SQLAlchemy ORM Data Models for Finora accounting application.
+Defines entities for Customers, Suppliers, Items, TaxRates, Accounts, Invoices, and Journal Entries.
+"""
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base
 
 class Customer(Base):
+    """
+    Represents a client/customer entity for sales invoicing.
+    """
     __tablename__ = "customers"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -17,6 +24,9 @@ class Customer(Base):
     invoices = relationship("Invoice", back_populates="customer")
 
 class Supplier(Base):
+    """
+    Represents a vendor/supplier entity for purchase invoicing.
+    """
     __tablename__ = "suppliers"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -30,6 +40,9 @@ class Supplier(Base):
     invoices = relationship("Invoice", back_populates="supplier")
 
 class Item(Base):
+    """
+    Represents a inventory product or service item shared between sales and purchases.
+    """
     __tablename__ = "items"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -44,6 +57,9 @@ class Item(Base):
     invoice_items = relationship("InvoiceItem", back_populates="item")
 
 class TaxRate(Base):
+    """
+    Represents master tax rate rules (e.g. VAT 5%, Sales Tax 10%, Exempt 0%).
+    """
     __tablename__ = "tax_rates"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -52,6 +68,10 @@ class TaxRate(Base):
     is_active = Column(Boolean, default=True)
 
 class Account(Base):
+    """
+    Represents an account in the Chart of Accounts for double-entry bookkeeping.
+    Supported account types: ASSET, LIABILITY, EQUITY, REVENUE, EXPENSE.
+    """
     __tablename__ = "accounts"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -64,6 +84,9 @@ class Account(Base):
     journal_lines = relationship("JournalLine", back_populates="account")
 
 class Invoice(Base):
+    """
+    Represents a Sales or Purchase Invoice document.
+    """
     __tablename__ = "invoices"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -87,6 +110,9 @@ class Invoice(Base):
     journal_entry = relationship("JournalEntry", back_populates="invoice", uselist=False)
 
 class InvoiceItem(Base):
+    """
+    Represents an individual line item inside a Sales or Purchase Invoice.
+    """
     __tablename__ = "invoice_items"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -103,6 +129,9 @@ class InvoiceItem(Base):
     item = relationship("Item", back_populates="invoice_items")
 
 class JournalEntry(Base):
+    """
+    Represents a double-entry transaction record generated for accounting ledgers.
+    """
     __tablename__ = "journal_entries"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -116,6 +145,9 @@ class JournalEntry(Base):
     lines = relationship("JournalLine", back_populates="journal_entry", cascade="all, delete-orphan")
 
 class JournalLine(Base):
+    """
+    Represents an individual debit or credit line in a Journal Entry.
+    """
     __tablename__ = "journal_lines"
 
     id = Column(Integer, primary_key=True, index=True)
