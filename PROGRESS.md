@@ -45,11 +45,12 @@ Track of implementation phases, completed tasks, commit checkpoints, and remaini
 
 ---
 
-## ⏳ Phase 5: Invoice Builders, Invoice View & P&L Dashboard UI
-- [ ] Sales Invoice Builder with live subtotal/tax auto-calculation.
-- [ ] Purchase Invoice Builder with live calculation.
-- [ ] Quick inline modal creation of Customers/Suppliers inside Invoice Builder.
-- [ ] Printable Invoice View / PDF preview modal.
-- [ ] Profit & Loss (P&L) Report & Analytics Dashboard with Recharts.
-- [ ] End-to-end Browser Verification.
-- [ ] **Commit Checkpoint 5**: Pending completion.
+## 🟢 Phase 5: Invoice Builders, Invoice View & P&L Dashboard UI
+- [x] Sales Invoice Builder with live subtotal/tax auto-calculation (`InvoiceBuilderModal.jsx`).
+- [x] Purchase Invoice Builder with live calculation (`InvoiceBuilderModal.jsx`).
+- [x] Quick inline modal creation of Customers/Suppliers inside Invoice Builder.
+- [x] Printable Invoice View / PDF preview modal (`InvoiceViewModal.jsx`).
+- [x] Profit & Loss (P&L) Report & Analytics Dashboard with Recharts (`ProfitLossPage.jsx`).
+- [x] Executive Overview Dashboard (`DashboardPage.jsx`).
+- [x] End-to-end Browser Verification.
+- [x] **Commit Checkpoint 5**: `feat(frontend): implement Invoice Builders, Printable View modal, P&L Dashboard with Recharts, and Executive Dashboard`

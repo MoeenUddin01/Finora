@@ -1,32 +1,47 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import DashboardPage from './pages/DashboardPage';
+import InvoicesPage from './pages/InvoicesPage';
 import CustomersPage from './pages/CustomersPage';
 import SuppliersPage from './pages/SuppliersPage';
 import ItemsPage from './pages/ItemsPage';
 import TaxesPage from './pages/TaxesPage';
-import { Clock, Rocket, Sparkles } from 'lucide-react';
+import ProfitLossPage from './pages/ProfitLossPage';
+import InvoiceBuilderModal from './components/InvoiceBuilderModal';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('customers');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [globalInvoiceOpen, setGlobalInvoiceOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const tabTitles = {
-    dashboard: 'Dashboard',
+    dashboard: 'Dashboard Overview',
     'sales-invoices': 'Sales Invoices',
     'purchase-invoices': 'Purchase Invoices',
     customers: 'Customers',
     suppliers: 'Suppliers',
     items: 'Inventory Items',
     taxes: 'Tax Rates',
-    'profit-loss': 'Profit & Loss Report',
+    'profit-loss': 'Profit & Loss Statement',
   };
 
   const handleQuickInvoice = () => {
-    setActiveTab('sales-invoices');
+    setGlobalInvoiceOpen(true);
+  };
+
+  const handleInvoiceSuccess = () => {
+    setRefreshKey((prev) => prev + 1);
   };
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'dashboard':
+        return <DashboardPage key={refreshKey} setActiveTab={setActiveTab} onQuickInvoice={handleQuickInvoice} />;
+      case 'sales-invoices':
+        return <InvoicesPage key={`sales-${refreshKey}`} type="SALES" />;
+      case 'purchase-invoices':
+        return <InvoicesPage key={`purchase-${refreshKey}`} type="PURCHASE" />;
       case 'customers':
         return <CustomersPage />;
       case 'suppliers':
@@ -35,34 +50,10 @@ export default function App() {
         return <ItemsPage />;
       case 'taxes':
         return <TaxesPage />;
+      case 'profit-loss':
+        return <ProfitLossPage key={refreshKey} />;
       default:
-        return (
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center space-y-4 max-w-xl mx-auto my-12">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
-              <Clock className="w-6 h-6 animate-pulse" />
-            </div>
-            <h3 className="text-xl font-bold text-white">
-              {tabTitles[activeTab] || 'Feature'} - Coming in Phase 5
-            </h3>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Invoice builders, automatic live calculations, PDF preview modal, and Profit & Loss Analytics dashboard with charts will be implemented in the next phase!
-            </p>
-            <div className="pt-2 flex justify-center gap-2">
-              <button
-                onClick={() => setActiveTab('customers')}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-indigo-400 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
-              >
-                Go to Customers
-              </button>
-              <button
-                onClick={() => setActiveTab('items')}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-xl text-xs font-semibold border border-slate-700 transition-colors"
-              >
-                Go to Inventory Items
-              </button>
-            </div>
-          </div>
-        );
+        return <DashboardPage setActiveTab={setActiveTab} onQuickInvoice={handleQuickInvoice} />;
     }
   };
 
@@ -75,7 +66,7 @@ export default function App() {
         onQuickInvoice={handleQuickInvoice}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content Shell */}
       <div className="flex-1 flex flex-col min-w-0">
         <Navbar activeTabTitle={tabTitles[activeTab]} />
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
@@ -84,6 +75,14 @@ export default function App() {
           </div>
         </main>
       </div>
+
+      {/* Global Quick Sales Invoice Builder Modal */}
+      <InvoiceBuilderModal
+        isOpen={globalInvoiceOpen}
+        onClose={() => setGlobalInvoiceOpen(false)}
+        invoiceType="SALES"
+        onSuccess={handleInvoiceSuccess}
+      />
     </div>
   );
 }
