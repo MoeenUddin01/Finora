@@ -35,12 +35,13 @@ Track of implementation phases, completed tasks, commit checkpoints, and remaini
 
 ---
 
-## ⏳ Phase 4: Master Data UI (Customers, Suppliers, Items, Taxes)
-- [ ] Customer Management Page & inline modal.
-- [ ] Supplier Management Page & inline modal.
-- [ ] Inventory Items Page.
-- [ ] Tax Rates Configuration Page.
-- [ ] **Commit Checkpoint 4**: Pending completion.
+## 🟢 Phase 4: Master Data UI (Customers, Suppliers, Items, Taxes)
+- [x] Reusable Modal Dialog component (`Modal.jsx`).
+- [x] Customer Management Page & inline modal (`CustomersPage.jsx`).
+- [x] Supplier Management Page & inline modal (`SuppliersPage.jsx`).
+- [x] Inventory Items Page (`ItemsPage.jsx`).
+- [x] Tax Rates Configuration Page (`TaxesPage.jsx`).
+- [x] **Commit Checkpoint 4**: `feat(frontend): implement Master Data UI for Customers, Suppliers, Inventory Items, Tax Rates, and Modal forms`
 
 ---
 
